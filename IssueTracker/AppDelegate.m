@@ -8,8 +8,10 @@
 
 #import "AppDelegate.h"
 #import "HTTPClient.h"
-#import "RequestsVC.h"
 #import "UAGithubEngine.h"
+#import "RequestsVC.h"
+#import "IssuesTVC.h"
+#import "RepositoriesTVC.h"
 
 @interface AppDelegate () {
     HTTPClient *httpClient;
@@ -25,8 +27,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    self.window.rootViewController = RequestsVC.new;
-    [self httpTest];
+    self.window.rootViewController = RepositoriesTVC.new;
+//    [self httpTest];
     return YES;
 }
 

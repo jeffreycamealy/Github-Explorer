@@ -1,22 +1,22 @@
 //
-//  IssuesTVC.m
+//  RepositoriesTVC.m
 //  IssueTracker
 //
 //  Created by Jeffrey Camealy on 5/6/13.
 //  Copyright (c) 2013 Ora Interactive. All rights reserved.
 //
 
-#import "IssuesTVC.h"
+#import "RepositoriesTVC.h"
 #import "UAGithubEngine.h"
 
-@interface IssuesTVC () {
+@interface RepositoriesTVC () {
     UAGithubEngine *engine;
-    NSArray *issues;
+    NSArray *repos;
 }
+
 @end
 
-
-@implementation IssuesTVC
+@implementation RepositoriesTVC
 
 #pragma mark - View Lifecycle
 
@@ -26,31 +26,29 @@
     engine = [[UAGithubEngine alloc] initWithUsername:@"jeffreycamealy" password:@"yuBruDR2030" withReachability:YES];
     
     @createWeakSelf;
-    [engine assignedIssuesWithState:@"open"
-                            success:^(id response) {
-                                issues = response;
-                                [weakself.tableView reloadData];
-                            } failure:^(NSError *error) {
-                                
-                            }];
+    [engine repositoriesWithSuccess:^(id response) {
+        repos = response;
+        [weakself.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 
 #pragma mark - Tableview DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return issues.count;
+    return repos.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = issues[indexPath.row][@"title"];
+    cell.textLabel.text = repos[indexPath.row][@"name"];
     
     return cell;
 }
@@ -61,5 +59,4 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
 }
-
 @end
